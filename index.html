@@ -1,241 +1,432 @@
-<!--
-  index.html
-  Modern, professional, slightly playful "space" portfolio for Ayoub
-  Instructions:
-  - Replace placeholder text (name, about, project items) with your real content.
-  - Add your resume file to the repository and link it where indicated.
-  - Save this file as index.html in the root of a GitHub repository.
-  - In GitHub: Settings → Pages → choose branch (main) and root folder, then set custom domain to your domain (e.g. ayoubfehris-space.me).
-  - DNS: create a CNAME record pointing your domain to <your-github-username>.github.io OR add the GitHub Pages A records if using apex.
--->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Ayoub Fehri — Portfolio</title>
-  <meta name="description" content="Ayoub Fehri — Software Engineering Student & AI enthusiast. Portfolio: projects, skills, CV, contact." />
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <meta name="description" content="Ayoub Fehri — Software Engineering Student & AI enthusiast." />
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
   <style>
-    /* Reset + base */
+    /* ============================
+       1. CORE VARIABLES & RESET
+       ============================ */
     :root{
-      --bg:#05040b; /* deep space */
+      --bg:#05040b;
       --card:#0b1020;
       --muted:#9aa3c7;
-      --accent1:#6ee7f6;
-      --accent2:#a78bfa;
+      --accent1:#6ee7f6; /* Cyan */
+      --accent2:#a78bfa; /* Purple */
       --glass: rgba(255,255,255,0.04);
       --glass-2: rgba(255,255,255,0.02);
       --radius:14px;
       --maxw:1100px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#e6eef8;background:radial-gradient(1200px 600px at 10% 10%, rgba(120,100,255,0.06), transparent), radial-gradient(800px 400px at 90% 80%, rgba(110,231,246,0.03), transparent), var(--bg);}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:var(--maxw);margin:36px auto;padding:28px}
+    
+    html {
+        height: 100%;
+        scroll-behavior: smooth; 
+        scroll-snap-type: y mandatory; /* Locks sections */
+    }
 
-    /* starfield background */
+    body{
+        margin:0;
+        font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+        color:#e6eef8;
+        background:radial-gradient(1200px 600px at 10% 10%, rgba(120,100,255,0.06), transparent), radial-gradient(800px 400px at 90% 80%, rgba(110,231,246,0.03), transparent), var(--bg);
+        overflow-x: hidden; 
+    }
+
+    a{color:inherit;text-decoration:none}
+
+    /* ============================
+       2. BACKGROUND STARS
+       ============================ */
     .stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
     canvas{display:block;width:100%;height:100%}
 
-    header{position:relative;z-index:2;margin-bottom:28px}
-    .nav{display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{height:48px;width:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:grid;place-items:center;color:#051426;font-weight:700;box-shadow:0 8px 30px rgba(167,139,250,0.12)}
-    .navlinks{display:flex;gap:14px;align-items:center}
-    .btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:10px 14px;border-radius:10px;color:#031018;font-weight:600}
-    .ghost{padding:8px 10px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.03)}
+    /* ============================
+       3. FIXED NAVBAR
+       ============================ */
+    .nav-container {
+        position: fixed;
+        top: 0; left: 0; width: 100%;
+        z-index: 100;
+        background: rgba(5, 4, 11, 0.8);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding: 15px 0;
+    }
 
-    /* hero */
-    .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;margin-top:28px}
+    .nav {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 20px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+    }
+
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{height:40px;width:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:grid;place-items:center;color:#051426;font-weight:700;box-shadow:0 8px 30px rgba(167,139,250,0.12)}
+    
+    .navlinks{display:flex;gap:10px;align-items:center}
+
+    .nav-btn {
+        padding: 8px 16px;
+        border-radius: 50px;
+        color: var(--muted);
+        font-weight: 500;
+        font-size: 14px;
+        transition: 0.3s;
+        border: 1px solid transparent;
+        background: transparent;
+    }
+
+    .nav-btn:hover {
+        color: #fff;
+        background: rgba(255,255,255,0.05);
+        border-color: rgba(255,255,255,0.1);
+        box-shadow: 0 0 15px rgba(110, 231, 246, 0.2);
+    }
+
+    /* ============================
+       4. SECTIONS & LAYOUT
+       ============================ */
+    main { width: 100%; }
+
+    section {
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        scroll-snap-align: start; 
+        position: relative;
+        padding-top: 60px; 
+    }
+
+    .container {
+        width: 100%;
+        max-width: var(--maxw);
+        padding: 20px;
+    }
+
+    /* ============================
+       5. COMPONENT STYLES
+       ============================ */
+    
+    /* Cards */
     .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:26px;box-shadow:0 10px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px);border:1px solid rgba(255,255,255,0.03)}
+    
+    /* Hero */
+    .hero-grid{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;}
     h1{font-size:34px;margin:0 0 10px}
     .subtitle{color:var(--muted);margin-bottom:18px}
     .hero-cta{display:flex;gap:12px;align-items:center}
-    .profile{height:100%;display:flex;flex-direction:column;gap:12px;align-items:center}
     .avatar{height:220px;width:220px;border-radius:18px;background:linear-gradient(135deg,#12162a 0%, #0b1530 100%);display:grid;place-items:center;color:var(--accent1);font-weight:700;font-size:40px;box-shadow:0 15px 40px rgba(9,12,25,0.7)}
+    .type{color:var(--accent1);font-weight:700}
+    .orbit{position:absolute;right:-40px;top:-40px;width:280px;height:280px;border-radius:50%;border:1px dashed rgba(255,255,255,0.03);transform:rotate(20deg);filter:blur(0.4px)}
 
-    /* project grid */
-    .projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:18px}
-    .project{background:linear-gradient(180deg,var(--card), rgba(10,14,30,0.6));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);position:relative;overflow:hidden}
+    /* Project Grid */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:18px}
+    .project{background:linear-gradient(180deg,var(--card), rgba(10,14,30,0.6));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);position:relative;overflow:hidden; transition:transform .28s}
+    .project:hover{transform:translateY(-6px);}
     .project img{width:100%;height:140px;object-fit:cover;border-radius:8px}
-    .project h3{margin:8px 0 6px;font-size:16px}
-    .stack{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+    .project h3{margin:8px 0 6px;font-size:16px; font-weight: 700;}
+    .stack{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px; font-weight: 500;}
 
-    /* skills */
+    /* Skills */
     .skills{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
     .skill{background:var(--glass);padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.02);font-weight:600}
 
-    /* footer / contact */
-    footer{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.02)}
-
-    /* responsive */
-    @media (max-width:880px){
-      .hero{grid-template-columns:1fr;}
-      .avatar{height:160px;width:160px}
+    /* --- CERTIFICATES GRID STYLES --- */
+    .cert-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 16px;
+        margin-top: 20px;
     }
+    .cert-card {
+        background: linear-gradient(180deg, rgba(11, 16, 32, 0.😎, rgba(10, 14, 30, 0.6));
+        border: 1px solid rgba(255,255,255,0.04);
+        padding: 16px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transition: transform 0.2s, border-color 0.2s;
+    }
+    .cert-card:hover {
+        transform: translateY(-4px);
+        background: rgba(255,255,255,0.05);
+        border-color: var(--accent1);
+    }
+    .cert-icon {
+        font-size: 24px;
+        min-width: 40px;
+        height: 40px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .cert-text h4 { margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #fff; }
+    .cert-text p { margin: 0; font-size: 12px; color: var(--muted); }
 
-    /* small visual flourishes */
-    .orbit{position:absolute;right:-40px;top:-40px;width:280px;height:280px;border-radius:50%;border:1px dashed rgba(255,255,255,0.03);transform:rotate(20deg);filter:blur(0.4px)}
-    .type{color:var(--accent1);font-weight:700}
-
-    /* contact form */
+    /* Footer / Contact */
+    .footer-content { margin-top: 20px; text-align: center; color: var(--muted); font-size: 13px; }
     form{display:grid;gap:10px}
     input,textarea{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:10px;color:inherit}
     textarea{min-height:100px}
+    .btn-action { background:linear-gradient(90deg,var(--accent1),var(--accent2)); padding:10px 14px;border-radius:10px;color:#031018;font-weight:600; border:none; cursor: pointer; }
+    .btn-ghost-action { padding:8px 10px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.03); }
 
-    /* small animations */
-    .project:hover{transform:translateY(-6px);transition:transform .28s}
-    .logo, .avatar, .card{transition:transform .35s,box-shadow .35s}
-    .logo:hover{transform:translateY(-4px)}
-
+    /* Mobile */
+    @media (max-width:880px){
+      .hero-grid{grid-template-columns:1fr;}
+      .avatar{height:160px;width:160px}
+      section { height: auto; min-height: 100vh; padding-top: 80px; padding-bottom: 40px; }
+    }
   </style>
 </head>
 <body>
+  
   <div class="stars"><canvas id="c"></canvas></div>
-  <div class="container">
-    <header>
+
+  <!-- NAVBAR -->
+  <div class="nav-container">
       <div class="nav">
         <div class="brand">
           <div class="logo">AF</div>
           <div>
             <div style="font-weight:700">Ayoub Fehri</div>
-            <div style="font-size:12px;color:var(--muted)">Software engineering student • AI & Web Dev</div>
+            <div style="font-size:12px;color:var(--muted)">Software Eng. Student</div>
           </div>
         </div>
         <div class="navlinks">
-          <a class="ghost" href="#projects">Projects</a>
-          <a class="ghost" href="#about">About</a>
-          <a class="ghost" href="#contact">Contact</a>
-          <a class="btn" href="#contact">Hire / Contact</a>
+          <a class="nav-btn" href="#home">Home</a>
+          <a class="nav-btn" href="#projects">Projects</a>
+          <a class="nav-btn" href="#certificates">Certificates</a>
+          <a class="nav-btn" href="#about">About</a>
+          <a class="nav-btn" href="#contact">Contact</a>
         </div>
       </div>
-    </header>
-
-    <main>
-      <section class="hero">
-        <div class="card">
-          <h1>Hi, I’m <span style="color:var(--accent2)">Ayoub</span> — I build <span class="type">AI-powered</span> web apps.</h1>
-          <div class="subtitle">Software Engineering student passionate about machine learning, full-stack web development and clean UI. I make practical projects and learn fast.</div>
-          <div class="hero-cta">
-            <a class="btn" href="#projects">See projects</a>
-            <a class="ghost" href="/resume.pdf" download>Download CV</a>
-          </div>
-
-          <div style="margin-top:18px">
-            <div style="font-weight:700;margin-bottom:8px">Featured skills</div>
-            <div class="skills">
-              <div class="skill">Python</div>
-              <div class="skill">React</div>
-              <div class="skill">Node.js</div>
-              <div class="skill">Machine Learning</div>
-              <div class="skill">SQL</div>
-            </div>
-          </div>
-
-          <div style="margin-top:18px;font-size:13px;color:var(--muted)">
-            <strong>Quick link:</strong> <a href="https://github.com/yourusername" style="color:var(--accent1)">GitHub</a> • <a href="https://www.linkedin.com/in/yourprofile" style="color:var(--accent2)">LinkedIn</a>
-          </div>
-
-        </div>
-
-        <aside class="card profile">
-          <div class="avatar">AF</div>
-          <div style="text-align:center">
-            <div style="font-weight:700">Ayoub Fehri</div>
-            <div style="color:var(--muted);font-size:13px">Software Engineering Student</div>
-            <div style="margin-top:10px">
-              <a class="ghost" href="#contact">Contact</a>
-            </div>
-          </div>
-          <div style="margin-top:auto;width:100%">
-            <div style="font-weight:700;margin-bottom:8px">About</div>
-            <div style="color:var(--muted);font-size:13px;line-height:1.45">I enjoy building web apps that solve real problems. I focus on clean code, good UX and practical ML solutions. I’m open to internships and freelance work.</div>
-          </div>
-          <div class="orbit" aria-hidden></div>
-        </aside>
-      </section>
-
-      <section id="projects" style="margin-top:28px">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <h2 style="margin:0">Projects</h2>
-          <div style="color:var(--muted);font-size:13px">Selected work — click to view</div>
-        </div>
-
-        <div class="projects">
-          <!-- Project 1 -->
-          <a class="project" href="https://github.com/yourusername/project1" target="_blank">
-            <img src="https://images.unsplash.com/photo-1526378725720-8f0b6c9ddc6b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=abc" alt="project thumbnail">
-            <h3>Project One — AI Image Tagger</h3>
-            <div class="stack">Python • Flask • ML</div>
-            <div style="position:absolute;right:10px;bottom:10px;color:var(--muted);font-size:12px">View →</div>
-          </a>
-
-          <!-- Project 2 -->
-          <a class="project" href="https://github.com/yourusername/project2" target="_blank">
-            <img src="https://images.unsplash.com/photo-1532204529978-82a0b6eea7d6?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=def" alt="project thumbnail">
-            <h3>Project Two — Portfolio CMS</h3>
-            <div class="stack">React • Node.js • PostgreSQL</div>
-            <div style="position:absolute;right:10px;bottom:10px;color:var(--muted);font-size:12px">View →</div>
-          </a>
-
-          <!-- Project 3 -->
-          <a class="project" href="#" target="_blank">
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=ghi" alt="project thumbnail">
-            <h3>Project Three — Chatbot Demo</h3>
-            <div class="stack">Node • Socket.io • ML</div>
-            <div style="position:absolute;right:10px;bottom:10px;color:var(--muted);font-size:12px">View →</div>
-          </a>
-
-        </div>
-      </section>
-
-      <section id="about" style="margin-top:28px">
-        <div class="card">
-          <h2>About me</h2>
-          <p style="color:var(--muted)">I’m a software engineering student specializing in full-stack development and machine learning. I enjoy turning ideas into working products and learning new technologies. Below is a short timeline and education.</p>
-          <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:12px">
-            <div style="flex:1;min-width:220px">
-              <h4 style="margin:6px 0">Education</h4>
-              <div style="color:var(--muted);font-size:14px">Bachelor in Computer Science — Your University (expected 2026)</div>
-            </div>
-            <div style="flex:1;min-width:220px">
-              <h4 style="margin:6px 0">Experience</h4>
-              <div style="color:var(--muted);font-size:14px">Intern — Company / TA — Course / Freelance projects</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" style="margin-top:28px">
-        <div class="card">
-          <h2>Contact</h2>
-          <div style="color:var(--muted);margin-bottom:14px">Want to work together or see more projects? Send a message or email me at <strong style="color:var(--accent1)">fehriayoub196@gmail.com</strong></div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <form onsubmit="return false;" style="grid-column:span 1">
-              <input type="text" id="name" placeholder="Your name" required>
-              <input type="email" id="email" placeholder="Your email" required>
-              <textarea id="message" placeholder="Your message"></textarea>
-              <button class="btn" onclick="sendMessage()" style="margin-top:8px">Send</button>
-            </form>
-            <div style="padding:12px;color:var(--muted);border-radius:10px;background:var(--glass-2);grid-column:span 1">
-              <div style="font-weight:700;margin-bottom:8px">Other ways to reach me</div>
-              <div style="margin-bottom:6px">GitHub: <a href="https://github.com/yourusername" style="color:var(--accent1)">yourusername</a></div>
-              <div style="margin-bottom:6px">LinkedIn: <a href="https://linkedin.com/in/yourprofile" style="color:var(--accent2)">yourprofile</a></div>
-              <div style="margin-bottom:6px">Email: <a href="mailto:fehriayoub196@gmail.com">fehriayoub196@gmail.com</a></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer>
-        <div>© <span id="year"></span> Ayoub Fehri — <span style="color:var(--muted)">ayoubfehris-space.me</span></div>
-        <div style="color:var(--muted);font-size:13px">Built with ❤️ — <a href="https://github.com/yourusername" style="color:var(--accent1)">GitHub</a></div>
-      </footer>
-
-    </main>
   </div>
+
+  <main>
+      <!-- 1. HOME -->
+      <section id="home">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="card">
+                  <h1>Hi, I’m <span style="color:var(--accent2)">Ayoub</span>.</h1>
+                  <div class="subtitle">Software Engineering student passionate about machine learning, full-stack web development and clean UI. I make practical projects and learn fast.</div>
+                  <div class="hero-cta">
+                    <a class="btn-action" href="#projects">See projects</a>
+                    <a class="btn-ghost-action" href="/resume.pdf" download>Download CV</a>
+                  </div>
+
+                  <div style="margin-top:18px">
+                    <div style="font-weight:700;margin-bottom:8px">Featured skills</div>
+                    <div class="skills">
+                      <div class="skill">Python</div>
+                      <div class="skill">React</div>
+                      <div class="skill">Node.js</div>
+                      <div class="skill">Machine Learning</div>
+                      <div class="skill">SQL</div>
+                    </div>
+                  </div>
+
+                  <div style="margin-top:18px;font-size:13px;color:var(--muted)">
+                    <strong>Quick link:</strong> <a href="https://github.com/Ayoub-fehri" style="color:var(--accent1)">GitHub</a> • <a href="https://linkedin.com/in/Fehri-ayoub" style="color:var(--accent2)">LinkedIn</a>
+                  </div>
+                </div>
+
+                <aside class="card profile">
+                  <div class="avatar">AF</div>
+                  <div style="text-align:center">
+                    <div style="font-weight:700">Ayoub Fehri</div>
+                    <div style="color:var(--muted);font-size:13px">Software Engineering Student</div>
+                  </div>
+                  <div style="margin-top:auto;width:100%">
+                    <div style="font-weight:700;margin-bottom:8px">About</div>
+                    <div style="color:var(--muted);font-size:13px;line-height:1.45">I enjoy building web apps that solve real problems. I focus on clean code, good UX and practical ML solutions.</div>
+                  </div>
+                  <div class="orbit" aria-hidden></div>
+                </aside>
+            </div>
+        </div>
+      </section>
+
+      <!-- 2. PROJECTS -->
+      <section id="projects">
+        <div class="container">
+            <div class="card">
+                <div style="display:flex;align-items:center;justify-content:space-between; margin-bottom: 20px;">
+                  <h2 style="margin:0">Projects</h2>
+                </div>
+
+                <div class="projects-grid">
+                  
+                  <!-- Project 1: Car Rental -->
+                  <a class="project" href="https://github.com/Ayoub-fehri" target="_blank">
+                    <!-- Image: Car Dashboard/Interior -->
+                    <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=600" alt="Car Rental">
+                    <h3>App Java – Gestion Location Voiture</h3>
+                    <div style="color:var(--muted); font-size:12px; margin-bottom:8px;">Application desktop complète : gestion véhicules, clients, réservations et rapports.</div>
+                    <div class="stack">Java • JavaFX • MySQL</div>
+                  </a>
+
+                  <!-- Project 2: Figma Plugin (COLORFUL IMAGE UPDATED) -->
+                  <a class="project" href="https://github.com/Ayoub-fehri" target="_blank">
+                    <!-- Image: Vibrant UI Design/Abstract -->
+                    <img src="https://images.unsplash.com/photo-1636760243166-c2c0c62ba633?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGFic3RyYWN0JTIwZGVzaWdufGVufDB8fDB8fHww" alt="Figma Plugin">
+                    <h3>Plugin IA pour Figma</h3>
+                    <div style="color:var(--muted); font-size:12px; margin-bottom:8px;">Recommandation automatique de design en temps réel via ML.</div>
+                    <div class="stack">Python • TS • Figma API</div>
+                  </a>
+
+                  <!-- Project 3: Educational App -->
+                  <a class="project" href="#" target="_blank">
+                    <!-- Image: Coding/Learning Mobile App -->
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600" alt="Edu App">
+                    <h3>App Mobile Educative (En cours)</h3>
+                    <div style="color:var(--muted); font-size:12px; margin-bottom:8px;">App Android pour apprendre le dev web avec IA intégrée.</div>
+                    <div class="stack">Java • Android Studio • MySQL</div>
+                  </a>
+
+                  <!-- Project 4: E-Commerce (FIXED IMAGE) -->
+                  <a class="project" href="#" target="_blank">
+                    <!-- Image: Shopping Interface/Digital -->
+                    <img src="https://images.unsplash.com/photo-1674027392851-7b34f21b07ee?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fG9ubGluZSUyMHNob3BwaW5nfGVufDB8fDB8fHww" alt="E-commerce">
+                    <h3>Plateforme E-commerce Web</h3>
+                    <div style="color:var(--muted); font-size:12px; margin-bottom:8px;">Gestion produits, panier, commandes. Interface moderne et responsive.</div>
+                    <div class="stack">PHP • MySQL • React</div>
+                  </a>
+
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <!-- 3. CERTIFICATES -->
+      <section id="certificates">
+          <div class="container">
+              <div class="card">
+                  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px;">
+                    <h2 style="margin:0">Certifications</h2>
+                    <div style="color:var(--muted);font-size:13px">Professional licenses & achievements</div>
+                  </div>
+                  
+                  <div class="cert-grid">
+                      <!-- Cert 1 -->
+                      <div class="cert-card">
+                          <div class="cert-icon"><i class="bi bi-google" style="color:#6ee7f6"></i></div>
+                          <div class="cert-text">
+                              <h4>Google Data Analytics</h4>
+                              <p>Professional Certificate</p>
+                          </div>
+                      </div>
+                      <!-- Cert 2 -->
+                      <div class="cert-card">
+                          <div class="cert-icon"><i class="bi bi-cpu-fill" style="color:#a78bfa"></i></div>
+                          <div class="cert-text">
+                              <h4>Deep Learning (TensorFlow)</h4>
+                              <p>Certificate of Achievement</p>
+                          </div>
+                      </div>
+                      <!-- Cert 3 -->
+                      <div class="cert-card">
+                          <div class="cert-icon"><i class="bi bi-hdd-network" style="color:#a78bfa"></i></div>
+                          <div class="cert-text">
+                              <h4>Deep Learning (PyTorch)</h4>
+                              <p>Certificate of Achievement</p>
+                          </div>
+                      </div>
+                      <!-- Cert 4 -->
+                      <div class="cert-card">
+                          <div class="cert-icon"><i class="bi bi-gear-wide-connected" style="color:#6ee7f6"></i></div>
+                          <div class="cert-text">
+                              <h4>The ML Process A-Z</h4>
+                              <p>Certificate of Achievement</p>
+                          </div>
+                      </div>
+                      <!-- Cert 5 -->
+                      <div class="cert-card">
+                          <div class="cert-icon"><i class="bi bi-briefcase-fill" style="color:#a78bfa"></i></div>
+                          <div class="cert-text">
+                              <h4>Machine Learning Deep Dive</h4>
+                              <p>Business Apps & Coding</p>
+                          </div>
+                      </div>
+                      <!-- Cert 6 -->
+                      <div class="cert-card">
+                          <div class="cert-icon"><i class="bi bi-graph-up-arrow" style="color:#6ee7f6"></i></div>
+                          <div class="cert-text">
+                              <h4>Intro to Data Science</h4>
+                              <p>Certificate of Achievement</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- 4. ABOUT / EDUCATION -->
+      <section id="about">
+        <div class="container">
+            <div class="card">
+              <h2>About me</h2>
+              <p style="color:var(--muted)">I’m a software engineering student specializing in full-stack development and machine learning. I enjoy turning ideas into working products and learning new technologies. Below is a short timeline and education.</p>
+              <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:12px">
+                <div style="flex:1;min-width:220px">
+                  <h4 style="margin:6px 0; color:var(--accent1)">Education</h4>
+                  <div style="color:var(--muted);font-size:14px">Bachelor in Computer Science — Your University (expected 2026)</div>
+                </div>
+                <div style="flex:1;min-width:220px">
+                  <h4 style="margin:6px 0; color:var(--accent2)">Experience</h4>
+                  <div style="color:var(--muted);font-size:14px">Intern — Company / TA — Course / Freelance projects</div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </section>
+
+      <!-- 5. CONTACT -->
+      <section id="contact">
+        <div class="container">
+            <div class="card">
+              <h2>Contact</h2>
+              <div style="color:var(--muted);margin-bottom:14px">Want to work together or see more projects? Send a message or email me at <strong style="color:var(--accent1)">fehriayoub196@gmail.com</strong></div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <form onsubmit="return false;" style="grid-column:span 1">
+                  <input type="text" id="name" placeholder="Your name" required>
+                  <input type="email" id="email" placeholder="Your email" required>
+                  <textarea id="message" placeholder="Your message"></textarea>
+                  <button class="btn-action" onclick="sendMessage()" style="margin-top:8px">Send</button>
+                </form>
+                <div style="padding:12px;color:var(--muted);border-radius:10px;background:var(--glass-2);grid-column:span 1; display:flex; flex-direction:column; justify-content:center;">
+                  <div style="font-weight:700;margin-bottom:8px">Other ways to reach me</div>
+                  <div style="margin-bottom:6px">GitHub: <a href="https://github.com/Ayoub-fehri" style="color:var(--accent1)">Ayoub-fehri</a></div>
+                  <div style="margin-bottom:6px">LinkedIn: <a href="https://linkedin.com/in/Fehri-ayoub" style="color:var(--accent2)">Fehri-ayoub</a></div>
+                  <div style="margin-bottom:6px">Email: <a href="mailto:fehriayoub196@gmail.com">fehriayoub196@gmail.com</a></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="footer-content">
+                <div>© <span id="year"></span> Ayoub Fehri</div>
+                <div>Built with ❤️</div>
+            </div>
+        </div>
+      </section>
+  </main>
 
   <script>
     // small utilities
@@ -257,10 +448,6 @@
     window.addEventListener('resize',resize);resize();
     function draw(){ctx.clearRect(0,0,w,h);for(let s of stars){s.x+=s.va*4;if(s.x>w)s.x=0;if(s.x<0)s.x=w;ctx.beginPath();ctx.fillStyle='rgba(255,255,255,'+(0.1+Math.random()*0.6)+')';ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();}requestAnimationFrame(draw)}
     draw();
-
-    // tiny orbit animation effect for project images
-    const projects = document.querySelectorAll('.project');
-    projects.forEach((p,i)=>{p.style.setProperty('--i',i);})
   </script>
 </body>
 </html>
